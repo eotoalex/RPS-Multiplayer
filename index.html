@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RPS-Multiplayer</title>
+
+    <!-- Link BootStrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Link JQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Link FireBase-->
+    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-analytics.js"></script>
+
+
+</head>
+<body>
+
+    <div class="container">
+
+<img id= "intro-gif" src="assets/images/rps_animation.gif" alt="A gif on the many rock, paper, scissors scenerios." still="assets/images/still.jpeg"> </img>
+
+<div id="wins" >Wins</div>
+<div id="losses">Losses</div>
+<!-- This paragraph can be in the chat box which gets deleted as soon as the player touches it. -->
+<p id="game-rules" >Decide who's designated driver. Decide who is deciding who's designated walker. Hell
+    decide who you're voting for president. Just decide with our state of the art, no 
+    holds bard rock, paper , scissors game. Call 2 out of 3 before hand if your playing 
+    long game,but be quick, your opponent might want the quick win.
+</p>
+
+<button id="start-game" value="1">
+    start
+</button>
+    </div>
+
+<section id="choices-container">
+    <div class=row >
+     <img class="users-choice" id="rock" src= "assets/images/betterrock.png" alt= "a beady eye rock"> </img></>
+    
+    
+    <img class="users-choice" id="paper" src= "assets/images/paper.png" alt= "a laughing piece of paper"> </img></<img>
+    
+
+    
+     <img class="users-choice" id="scissor" src= "assets/images/scissors.png" alt= "an elegant-looking pair of scissors."> </img></>
+    </div>
+</section>
+    
+    <!-- Link Javascript -->
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+</body>
+</html>
