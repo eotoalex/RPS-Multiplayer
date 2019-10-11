@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>RPS-Multiplayer</title>
 
     <!-- Link BootStrap -->
@@ -15,6 +16,9 @@
 
     <!-- Link JQuery-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Link to Moment.js should go here -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
     <!-- Link FireBase-->
     <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
@@ -32,6 +36,8 @@
 
 <div id="wins" >Wins</div>
 <div id="losses">Losses</div>
+<div id="logged-players" value = "">Players: </div>
+
 <!-- This paragraph can be in the chat box which gets deleted as soon as the player touches it. -->
 <p id="game-rules" >Decide who's designated driver. Decide who is deciding who's designated walker. Hell
     decide who you're voting for president. Just decide with our state of the art, no 
@@ -46,14 +52,14 @@
 
 <section id="choices-container">
     <div class=row >
-     <img class="users-choice" id="rock" src= "assets/images/betterrock.png" alt= "a beady eye rock"> </img></>
+     <img class="users-choice" id="rock" src= "assets/images/betterrock.png" alt= "a beady eye rock" value="rock"> </img>
     
     
-    <img class="users-choice" id="paper" src= "assets/images/paper.png" alt= "a laughing piece of paper"> </img></<img>
+    <img class="users-choice" id="paper" src= "assets/images/paper.png" alt= "a laughing piece of paper" value="paper"> </img>
     
 
     
-     <img class="users-choice" id="scissor" src= "assets/images/scissors.png" alt= "an elegant-looking pair of scissors."> </img></>
+     <img class="users-choice" id="scissor" src= "assets/images/scissors.png" alt= "an elegant-looking pair of scissors." value="scissor"> </img>
     </div>
 </section>
     
