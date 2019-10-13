@@ -1,4 +1,4 @@
-
+function setUp () {
   
  // Your web app's Firebase configuration
  var firebaseConfig = {
@@ -20,48 +20,77 @@
 //   Variables
 
 var database = firebase.database();
-var usersChoice = "greatness"
-var playerInd = database.ref("/playerController");
-var player1Selection = database.ref("/user1-choice");
-var player2Selection = database.ref("/user2-choice");
 var connectionRef = database.ref("/connections");
 var connectedRef = database.ref(".info/connected");
-var choiceMade = true;
-var start = false;
+var gameRef = database.ref("/game");
+
 var wins = 0;
 var losses = 0;
-var timeStamp="";
-var playersLoggedIn = "";
 
-var gameObj = {
-   numPlayers:"",
-   player1choice:"",
-   player2choice:""
+
+
+
+var player1 
+var player2
+let playersConnected = 0;
+var connectionKeys = [];
+
+
+
+
+//  for (var i = 0; i < playersConnected; i++){
+// var players = p+toString[i];
+// var keys = keys[i];
+// 
+// var playerObj = {
+//    players:keys,
+// } 
+
+// 
+// gameRef.set({
+   // players:playerObj.keys
+// })
+
+  
+
+// };
+
+function logToSession (numplayers) {
+sessionStorage.clear();
+
+   for(var i = 1; i <= numplayers; i++){
+      var player = "player" + i;
+
+   var newEl = $("<p>");
+   newEl.addClass("players");
+   newEl.attr("value", player);
+   var sS = $(".players").attr("value"); 
+
+   $(".users-choice").on("click", function (){
+      var move = $(this).attr("value");
+
+      sessionStorage.setItem(
+         player,move
+       );
+   })
+   
+
+
+
+
+
+
+   }
+
 }
 
+gameRef.on("value", getData);
+function getData (data){
+var x = data.val();
+var keys = Object.keys("game");
 
-// // Calling the sign in anonymously method.
-// firebase.auth().signInAnonymously().catch(function(error) {
-//    // Handle Errors here.
-//    var errorCode = error.code;
-//    var errorMessage = error.message;
-//    // ...
-//  });
-
-//  firebase.auth().onAuthStateChanged(function(user) {
-//    if (user) {
-//      // User is signed in.
-//      var isAnonymous = user.isAnonymous;
-//      var uid = user.uid;
-//      // ...
-//    } else {
-//      // User is signed out.
-//      // ...
-//    }
-//    // ...
-//  });
-
-
+gameRef.onDisconnect().remove();
+}
 
 
 // This will check how many players are connected.
@@ -69,87 +98,177 @@ var gameObj = {
 connectedRef.on("value", function(snap){
     if (snap.val()){
         var con = connectionRef.push(true);
-
-      
         con.onDisconnect().remove();
-      //   console.log(con);
+
+        $(".users-choice").on("click", function (){
+         var playerMove = $(this).attr("value");
+         
+         
+         logToSession (playersLoggedIn,playerMove);
+      })
+    
     }
 });
 
 
 
-
-
-
-
-
-// Listening for player connections and sorting user input in various database location and allowing certain user permissions based on where they are in the database.
+// Listening for player connections and sorting user input in various database locations and allowing certain user permissions based on where they are in the database.
 
 connectionRef.on("value", function (snapshot){
    playersLoggedIn = snapshot.numChildren();
    $("#logged-players").attr("value", playersLoggedIn);
-   console.log( playersLoggedIn);
-   
-var player1ID = 
-   database.ref("/connections").orderByKey().limitToFirst(1).once('value', function(snap) {
-   var key = Object.keys(snap.val())[0] )};
+   console.log(playersLoggedIn);
+  
 
+// Tester code to evaluate user responses.
+function playersLogged (pllo,id1,id2){
+  
 
-
-
-   if (playersLoggedIn < 2){
-     
-      //   // Sets up player 1's user id based on their log in.
-
-      //   database.ref("/connections").orderByKey().limitToFirst(1).once('value', function(snap) {
-      //    var key = Object.keys(snap.val())[0];
-      //    console.log(key);   )};
-        
-
-         $(".users-choice").on("click", function() {
-      
-            var userres = $(this).attr("id");
-            var playerDir = database.ref("/connections/"+ key);
-           
-            console.log(userres);
-            playerDir.set(userres);
-      
-         });
+   playersConnected = pllo;
+  
+   for (var i = 1; i < playersConnected; i++){
+      var p ="player";
+      var players = p+ i;
+      console.log(players);
    
 
-   }
+  
 
-   else if (playersLoggedIn < 3 && playersLoggedIn > 1){
+   if (playersConnected === 1){
+$(".users-choice").on('click', function (){
+   var choice = $(this).attr("value");
+   var player1ID = id1;
+   var player1Move = choice;
+   $("#ready-player1").attr("move", choice)
 
-      // // Sets up player 2's user id based on their log in time.
-      // database.ref("/connections").orderByKey().limitToFirst(2).once('value', function(snap) {
-      //    var key = Object.keys(snap.val())[0];
-      //    console.log(key);   )};
-         
+   // Can post player stats before posting to the database.
 
-      $(".users-choice").on("click", function() {
-      
-      var userres = $(this).attr("id");
-      var playerDir = database.ref("/connections/" + key);
-     
-      console.log(userres);
-      playerDir.set(userres);
-
+   gameRef.push({
+      player: players,
+      ID:player1ID,
+      p1Move:player1Move,
+      result:""
    });
-
-      
-}
-
-   else if (playersLoggedIn > 2){
-      // These players will go into reserve/watchers file.
-      console.log("The reserve/watchers");
-
+   
+});
    }
 
+   else if (playersConnected === 2){
+      $(".users-choice").on('click', function (){
+         var choice = $(this).attr("value");
+         var player2ID = id2;
+      var player2Move = choice;
+      $("#ready-player2").attr("move", choice)
+
+      gameRef.push({
+         player2LogID:player2ID,
+         p2Move:player2Move,
+         result:""
+      });
+    
+   });
+   }
+
+}
+   // else{
+   //    gameRef.push({
+   //       player2LogID:"Watchers",
+   //       p2Move:"Watchers",
+   //       result:""
+   //    });
+   // }
+
+   evaluateMoves ($("#ready-player1").attr("move"),$("#ready-player2").attr("move"))
+   function evaluateMoves (p1Move,p2Move){
+
+      
+      if(p1Move === p2Move){
+         console.log("DRAW");
+         
+         gameRef.push({
+            result:"Draw"
+         });
+
+      }
+      else if (p1Move === "rock" && p2Move === "scissors") {
+         console.log("player wins.");
+
+         gameRef.push({
+            result:"win"
+         });
+         
+         // gameRef.push({
+         //    result:
+         // });
+      }
+      else if (p1Move === "rock" && p2Move === "paper") {
+         console.log("player1 loses");
+         gameRef.push({
+            result:"lose"
+         });
+      }
+      else if(p1Move === "paper" && p2Move === "scissors"){
+         console.log("player loses");
+         gameRef.push({
+            result:"lose"
+         });
+
+      }
+      else if(p1Move === "paper" && p2Move === "rock"){
+         console.log("player wins");
+         gameRef.push({
+            result:"win"
+         });
+
+      }
+      else if(p1Move === "scissors" && p2Move === "rock"){
+         console.log("player loses");
+         gameRef.push({
+            result:"lose"
+         });
+
+      }
+      else if(p1Move === "scissors" && p2Move === "paper"){
+         console.log("player wins");
+         gameRef.push({
+            result:"win"
+         });
+
+      }
+
+   };
+      
+       
+   
+};
+
+
+
+   
+
+// Connection ref listening for new keys generated by new connections.
+connectionRef.on("value", getData);
+function getData (data){
+var x = data.val();
+var keys = Object.keys(x);
+
+
+player1 = keys[0];
+player2 = keys[1];
+
+
+
+
+
+
+
+
+
+
+
+}
 });
 
-
-// console.log(gameObj);
 
 
 
@@ -174,23 +293,9 @@ player1Selection.set({
 })
 
 
-// These listeners are checking to see what choices player1 and player2 log into the server.
+}
 
-database.ref("/user1-choice").on("child_added", function(snapshot) {
+window.onload = function(){
+ setUp();
 
-   var userTimeLogged = snapshot.val().dateAdded;
-   // console.log("Login time: " ,userTimeLogged);
-   // console.log("User: ", )
-   //  console.log(snapshot.val().LqmtuLYliOrEq2i2dyF.dateAdded);
-   //  console.log(snapshot.val().)
-})
-
-database.ref("/user2-choice").on("child_added", function(snapshot) {
-
-   var userTimeLogged = snapshot.val().dateAdded;
-   // console.log("Login time: " ,userTimeLogged);
-   // console.log("User: ", )
-   //  console.log(snapshot.val().LqmtuLYliOrEq2i2dyF.dateAdded);
-   //  console.log(snapshot.val().)
-})
-
+};
